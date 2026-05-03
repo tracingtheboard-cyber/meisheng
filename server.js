@@ -21,7 +21,17 @@ const supabase = createClient(
 );
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 
-app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173', credentials: true }));
+const ALLOWED_ORIGINS = (process.env.FRONTEND_URL || 'http://localhost:5173')
+  .split(',').map(o => o.trim());
+console.log('✅ CORS 允许的域名:', ALLOWED_ORIGINS);
+app.use(cors({
+  origin: (origin, callback) => {
+    // 允许无 origin 的请求（如 curl、服务端调用）
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS blocked: ${origin}`));
+  },
+  credentials: true
+}));
 app.use(express.json());
 app.use(session({
   secret: process.env.SESSION_SECRET || 'meisheng-session-secret-change-in-prod',
