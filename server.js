@@ -21,12 +21,15 @@ const supabase = createClient(
 );
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 
-const ALLOWED_ORIGINS = (process.env.FRONTEND_URL || 'http://localhost:5173')
-  .split(',').map(o => o.trim());
-console.log('✅ CORS 允许的域名:', ALLOWED_ORIGINS);
+const ALLOWED_ORIGINS = [
+  'https://meisheng.vercel.app',   // 生产前端（硬编码备用）
+  'http://localhost:5173',          // 本地开发
+  'http://localhost:3000',
+  ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map(o => o.trim()) : []),
+];
+console.log('✅ CORS 允许的域名:', [...new Set(ALLOWED_ORIGINS)]);
 app.use(cors({
   origin: (origin, callback) => {
-    // 允许无 origin 的请求（如 curl、服务端调用）
     if (!origin || ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
     callback(new Error(`CORS blocked: ${origin}`));
   },
