@@ -4,6 +4,8 @@ import { useLang } from '../lib/LanguageContext';
 import t from '../lib/translations';
 import './RegisterPage.css';
 
+const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
 const PLAN_PRICES: Record<string, number> = { starter: 499, growth: 888, pro: 1688 };
 
 export default function RegisterPage() {
@@ -60,7 +62,7 @@ export default function RegisterPage() {
       uploadForm.append('personName', newShareholder.name);
 
       try {
-        const res = await fetch('http://localhost:3001/api/upload-document', {
+        const res = await fetch(`${API}/api/upload-document`, {
           method: 'POST',
           body: uploadForm,
         });
@@ -88,7 +90,7 @@ export default function RegisterPage() {
     setAiError('');
     setAiSuggestions([]);
     try {
-      const res = await fetch('http://localhost:3001/api/suggest-names', {
+      const res = await fetch(`${API}/api/suggest-names`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ keyword: aiKeyword }),
@@ -126,7 +128,7 @@ export default function RegisterPage() {
     setPayError('');
     try {
       // 先保存订单到数据库
-      await fetch('http://localhost:3001/api/save-order', {
+      await fetch(`${API}/api/save-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -139,7 +141,7 @@ export default function RegisterPage() {
       });
 
       // 然后跳转 Stripe
-      const res = await fetch('http://localhost:3001/api/create-checkout-session', {
+      const res = await fetch(`${API}/api/create-checkout-session`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

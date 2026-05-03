@@ -21,7 +21,7 @@ const supabase = createClient(
 );
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173', credentials: true }));
 app.use(express.json());
 app.use(session({
   secret: process.env.SESSION_SECRET || 'meisheng-session-secret-change-in-prod',
@@ -29,8 +29,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,      // JS 无法读取
-    secure: false,       // 生产环境改为 true（HTTPS）
-    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',  // 生产环境自动开启 HTTPS
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',  // 跨域 Cookie
     maxAge: 8 * 60 * 60 * 1000  // 8小时自动失效
   }
 }));
@@ -108,8 +108,8 @@ app.post('/api/create-checkout-session', async (req, res) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: 'http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'http://localhost:5173/register',
+      success_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url:  `${process.env.FRONTEND_URL || 'http://localhost:5173'}/register`,
       metadata: {
         company_name: companyName,
         ssic_code: ssicCode,

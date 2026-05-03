@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import './AdminPage.css';
 
-const API = 'http://localhost:3001';
+const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 const WORKFLOW_STEPS = [
   { id: 'name_check',   label: '公司名可用性核查',     desc: '在 ACRA Bizfile 确认名称未被占用' },

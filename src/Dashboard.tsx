@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.css';
 import IncorporationWizard from './components/IncorporationWizard';
+import { useLang } from './lib/LanguageContext';
+import t from './lib/translations';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -9,6 +11,8 @@ export default function Dashboard() {
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [hasActiveCompany, setHasActiveCompany] = useState(false);
+  const { lang } = useLang();
+  const _ = (o: { zh: string; en: string }) => o[lang];
 
   useEffect(() => {
     setLoaded(true);
@@ -95,8 +99,8 @@ export default function Dashboard() {
 
         <div className="content-area">
           <div className="page-header">
-            <h2>Welcome back, <span className="highlight">Founder</span></h2>
-            <p>Here's what's happening with your corporate entities today.</p>
+            <h2>{_(t.dashboard.welcome)}<span className="highlight">Founder</span></h2>
+            <p>{_(t.dashboard.subtitle)}</p>
           </div>
 
           {hasActiveCompany ? (
@@ -160,12 +164,12 @@ export default function Dashboard() {
               <div style={{ fontSize: '64px', color: 'rgba(255,255,255,0.2)', marginBottom: '20px' }}>
                 <i className="fa-solid fa-folder-open"></i>
               </div>
-              <h2 style={{ marginBottom: '12px', fontSize: '24px' }}>还没有注册任何公司</h2>
+              <h2 style={{ marginBottom: '12px', fontSize: '24px' }}>{_(t.dashboard.empty.title)}</h2>
               <p style={{ color: 'var(--text-secondary)', marginBottom: '30px', maxWidth: '400px', margin: '0 auto 30px', lineHeight: '1.6' }}>
-                您当前没有任何活跃的公司记录。立即在新加坡开启您的商业征程，全程线上办理，最快 1 小时下证。
+                {_(t.dashboard.empty.desc)}
               </p>
               <button className="primary-btn" onClick={() => navigate('/register')} style={{ padding: '14px 28px', fontSize: '16px' }}>
-                <i className="fa-solid fa-rocket"></i> 注册第一家公司
+                <i className="fa-solid fa-rocket"></i> {_(t.dashboard.empty.btn)}
               </button>
             </div>
           )}

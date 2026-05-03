@@ -279,6 +279,17 @@ const t = {
     whatsapp:  { zh: '通过 WhatsApp 联系顾问', en: 'Contact us via WhatsApp' },
     backHome:  { zh: '返回首页', en: 'Back to Home' },
   },
+  // ── Dashboard ──
+  dashboard: {
+    welcome:    { zh: '欢迎回来，', en: 'Welcome back, ' },
+    subtitle:   { zh: '以下是您今日的企业动态。', en: "Here's what's happening with your corporate entities today." },
+    empty: {
+      title:  { zh: '还没有注册任何公司', en: 'No companies yet' },
+      desc:   { zh: '您当前没有任何活跃的公司记录。立即在新加坡开启您的商业征程，全程线上办理，最快 1 小时下证。',
+                en: 'You have no active companies yet. Start your Singapore business journey today — fully online, BizFile issued in as little as 60 minutes.' },
+      btn:    { zh: '注册第一家公司', en: 'Register Your First Company' },
+    },
+  },
 };
 
 export default t;
