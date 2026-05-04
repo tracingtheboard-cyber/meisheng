@@ -19,7 +19,7 @@ export default function RegisterPage() {
   const STEPS = t.register.steps[lang];
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [nameAvailable, setNameAvailable] = useState<boolean | null>(null);
+  const [nameResult, setNameResult] = useState<{ available: boolean | null; reason: string; message: string; messageEn: string; similar?: string[] } | null>(null);
   const [formData, setFormData] = useState({
     companyName: '',
     ssicCode: '',
@@ -108,17 +108,27 @@ export default function RegisterPage() {
     }
   };
 
-  const handleNameCheck = () => {
-    if (!formData.companyName) return;
+  const handleNameCheck = async () => {
+    if (!formData.companyName.trim()) return;
     setLoading(true);
-    setTimeout(() => {
-      setNameAvailable(!formData.companyName.toLowerCase().includes('bank'));
+    setNameResult(null);
+    try {
+      const res = await fetch(`${API}/api/check-name`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: formData.companyName.trim() }),
+      });
+      const data = await res.json();
+      setNameResult(data);
+    } catch {
+      setNameResult({ available: null, reason: 'unavailable', message: '网络错误，请稍后重试', messageEn: 'Network error, please try again.' });
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   const canProceed = () => {
-    if (step === 0) return nameAvailable === true;
+    if (step === 0) return nameResult !== null && nameResult.available !== false;
     if (step === 1) return !!formData.ssicCode;
     return true;
   };
@@ -211,21 +221,35 @@ export default function RegisterPage() {
                     type="text"
                     placeholder={_(t.register.step1.placeholder)}
                     value={formData.companyName}
-                    onChange={(e) => { setFormData({ ...formData, companyName: e.target.value }); setNameAvailable(null); }}
+                    onChange={(e) => { setFormData({ ...formData, companyName: e.target.value }); setNameResult(null); }}
                     onKeyDown={(e) => e.key === 'Enter' && handleNameCheck()}
                   />
                   <button className="check-btn" onClick={handleNameCheck} disabled={loading || !formData.companyName}>
                     {loading ? <i className="fa-solid fa-circle-notch fa-spin"></i> : _(t.register.step1.checkBtn)}
                   </button>
                 </div>
-                  {nameAvailable === true && (
+                  {nameResult?.available === true && (
                     <div className="status-msg success animate-in">
-                      <i className="fa-solid fa-check-circle"></i> <strong>{_(t.register.step1.available)}</strong> "{formData.companyName}" {_(t.register.step1.availableMsg)}
+                      <i className="fa-solid fa-circle-check"></i>
+                      <span>{lang === 'zh' ? nameResult.message : nameResult.messageEn}</span>
+                      {nameResult.similar && nameResult.similar.length > 0 && (
+                        <div style={{marginTop:'8px', fontSize:'12px'}}>
+                          <span style={{opacity:0.8}}>{lang==='zh'?'相似名称：':'Similar names: '}</span>
+                          {nameResult.similar.map((n,i) => <span key={i} style={{marginLeft:'6px', padding:'1px 6px', border:'1px solid currentColor', borderRadius:'4px', fontSize:'11px'}}>{n}</span>)}
+                        </div>
+                      )}
                     </div>
                   )}
-                  {nameAvailable === false && (
+                  {nameResult?.available === false && (
                     <div className="status-msg error animate-in">
-                      <i className="fa-solid fa-circle-exclamation"></i> <strong>{_(t.register.step1.taken)}</strong> {_(t.register.step1.takenMsg)}
+                      <i className="fa-solid fa-circle-xmark"></i>
+                      <span>{lang === 'zh' ? nameResult.message : nameResult.messageEn}</span>
+                    </div>
+                  )}
+                  {nameResult?.available === null && nameResult?.reason === 'unavailable' && (
+                    <div className="status-msg warning animate-in">
+                      <i className="fa-solid fa-triangle-exclamation"></i>
+                      <span>{lang === 'zh' ? nameResult.message : nameResult.messageEn}</span>
                     </div>
                   )}
               </div>

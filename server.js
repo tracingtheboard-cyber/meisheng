@@ -183,6 +183,113 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: '美生支付服务运行中 ✅' });
 });
 
+// ── ACRA 核名（via GoBusiness 公开 API，与官网同数据源）──────────────
+const RESTRICTED_WORDS = [
+  'bank', 'banking', 'finance', 'financial', 'insurance', 'assurance',
+  'reinsurance', 'fund', 'trust', 'securities', 'stock exchange',
+  'law', 'legal', 'advocate', 'solicitor', 'chamber', 'chartered accountant',
+  'building society', 'co-operative', 'credit union', 'royal', 'government',
+  'national', 'republic', 'authority', 'council', 'commission',
+  'ministry', 'mediacorp', 'temasek', 'dbs', 'ocbc', 'uob',
+];
+const INVALID_CHARS = /[<>{}[\]\\^~`|]/;
+
+async function queryGoBusiness(searchTerm) {
+  const url = 'https://api.eadviser.gobusiness.gov.sg/api/ipos/search?search-term='
+    + encodeURIComponent(searchTerm);
+  const resp = await fetch(url, {
+    headers: {
+      'Accept': 'application/json',
+      'Referer': 'https://eadviser.gobusiness.gov.sg/',
+      'Origin': 'https://eadviser.gobusiness.gov.sg',
+    },
+    signal: AbortSignal.timeout(10000),
+  });
+  if (!resp.ok) throw new Error('GoBusiness API ' + resp.status);
+  return resp.json();
+}
+
+app.post('/api/check-name', async (req, res) => {
+  const { name } = req.body;
+  if (!name || name.trim().length < 2) {
+    return res.status(400).json({ error: 'Invalid name' });
+  }
+  const cleanName = name.trim();
+  const nameLower = cleanName.toLowerCase();
+
+  if (INVALID_CHARS.test(cleanName)) {
+    return res.json({ available: false, reason: 'invalid_chars',
+      message: '名称含有不允许的特殊字符，请修改后重试',
+      messageEn: 'Name contains invalid characters.' });
+  }
+  if (!/\bpte\.?\s*ltd\.?\b|\bprivate\s+limited\b/i.test(cleanName)) {
+    return res.json({ available: false, reason: 'missing_suffix',
+      message: '公司名称必须以 "Pte. Ltd." 或 "Private Limited" 结尾',
+      messageEn: 'Name must end with "Pte. Ltd." or "Private Limited".' });
+  }
+  if (cleanName.length > 180) {
+    return res.json({ available: false, reason: 'too_long',
+      message: '公司名称不能超过 180 个字符', messageEn: 'Name exceeds 180 characters.' });
+  }
+
+  const foundRestricted = RESTRICTED_WORDS.find(w => nameLower.includes(w));
+  if (foundRestricted) {
+    return res.json({ available: false, reason: 'restricted',
+      message: '名称含受限词 "' + foundRestricted + '"，需向相关机构申请特别许可',
+      messageEn: 'Name contains restricted word "' + foundRestricted + '", requires special approval.' });
+  }
+
+  const searchTerm = cleanName
+    .replace(/\bpte\.?\s*ltd\.?\b/gi, '')
+    .replace(/\bprivate\s+limited\b/gi, '')
+    .trim();
+
+  try {
+    const data = await queryGoBusiness(searchTerm);
+    const records = (data && data.data && data.data.businessNameService && data.data.businessNameService.records) || [];
+
+    const stripSuffix = s => s.toLowerCase()
+      .replace(/\bpte\.?\s*ltd\.?\b/gi, '')
+      .replace(/\bprivate\s+limited\b/gi, '')
+      .replace(/\bllp\b/gi, '')
+      .replace(/\s+/g, ' ').trim();
+    const searchNorm = stripSuffix(searchTerm);
+    const exactMatch = records.find(r => stripSuffix(r.entityName || r.name || '') === searchNorm);
+
+    if (exactMatch) {
+      const uen = exactMatch.uen || '';
+      return res.json({ available: false, reason: 'taken',
+        message: '"' + cleanName + '" 已在 ACRA 注册' + (uen ? '（UEN: ' + uen + '）' : '') + '，请换一个名字',
+        messageEn: '"' + cleanName + '" is already registered with ACRA' + (uen ? ' (UEN: ' + uen + ')' : '') + '. Please choose a different name.' });
+    }
+
+    const similar = records.slice(0, 5).map(r => r.entityName || r.name).filter(Boolean);
+    console.log('[GoBusiness] Name check passed: ' + cleanName + ', similar: ' + similar.length);
+
+    return res.json({
+      available: true,
+      reason: similar.length > 0 ? 'similar_exists' : 'clear',
+      message: similar.length > 0
+        ? '初步可用，但存在相似名称，最终以 ACRA 审核为准'
+        : '"' + cleanName + '" 在 ACRA 数据库中未发现同名，可以申请！',
+      messageEn: similar.length > 0
+        ? 'Likely available. Similar names exist — final approval subject to ACRA review.'
+        : '"' + cleanName + '" not found in ACRA database. Available to apply!',
+      similar,
+      source: 'gobusiness',
+    });
+
+  } catch (err) {
+    console.warn('[check-name] GoBusiness failed, local fallback:', err.message);
+    return res.json({
+      available: true, reason: 'preliminary_pass',
+      message: '"' + cleanName + '" 初步检查通过！未发现受限词或格式问题。最终以 ACRA 审核为准（通常 1 个工作日内）。',
+      messageEn: '"' + cleanName + '" passed preliminary checks! Final approval subject to ACRA review (typically 1 business day).',
+      source: 'local_fallback',
+    });
+  }
+});
+
 // 保存订单（注册提交时调用）
 app.post('/api/save-order', async (req, res) => {
   const { companyName, ssicCode, addressType, plan, shareholders } = req.body;

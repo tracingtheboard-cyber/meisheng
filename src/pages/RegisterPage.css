@@ -415,6 +415,12 @@ input[type="text"]:focus, input[type="email"]:focus {
   color: #ff3366;
 }
 
+.status-msg.warning {
+  background: rgba(234, 179, 8, 0.08);
+  border: 1px solid rgba(234, 179, 8, 0.25);
+  color: #ca8a04;
+}
+
 .animate-in {
   animation: fadeUp 0.3s ease;
 }
