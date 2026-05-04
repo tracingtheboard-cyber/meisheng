@@ -147,46 +147,51 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 120px 40px 80px;
+  padding: 140px 40px 100px;
   position: relative;
-  background: radial-gradient(ellipse at 50% 0%, rgba(140,28,28,0.06), transparent 55%),
-              radial-gradient(ellipse at 80% 90%, rgba(201,149,42,0.05), transparent 50%);
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -5%, rgba(140,28,28,0.12), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 95%, rgba(201,149,42,0.08), transparent 55%),
+    var(--bg-main);
+  overflow: hidden;
 }
 
 .hero-badge {
   display: inline-block;
-  background: rgba(140, 28, 28, 0.08);
-  border: 1px solid rgba(140, 28, 28, 0.2);
+  background: rgba(140, 28, 28, 0.07);
+  border: 1px solid rgba(140, 28, 28, 0.18);
   color: var(--accent-color);
-  padding: 8px 20px;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 32px;
+  padding: 10px 28px;
+  border-radius: 40px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  margin-bottom: 40px;
+  text-transform: uppercase;
 }
 
 .hero-title {
-  font-size: clamp(48px, 7vw, 80px);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -2px;
-  margin-bottom: 24px;
+  font-size: clamp(56px, 8vw, 96px);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -3px;
+  margin-bottom: 28px;
   color: var(--text-primary);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--accent-color), var(--accent-gold));
+  background: linear-gradient(135deg, var(--accent-color) 0%, #C9521C 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .hero-desc {
-  font-size: 20px;
+  font-size: 19px;
   color: var(--text-secondary);
-  line-height: 1.7;
-  max-width: 600px;
-  margin-bottom: 48px;
+  line-height: 1.8;
+  max-width: 580px;
+  margin-bottom: 52px;
 }
 
 .hero-actions {
@@ -199,42 +204,43 @@
   background: var(--accent-color);
   color: #fff;
   text-decoration: none;
-  padding: 16px 32px;
-  border-radius: 12px;
-  font-weight: 700;
+  padding: 18px 40px;
+  border-radius: 14px;
+  font-weight: 800;
   font-size: 16px;
+  letter-spacing: 0.3px;
   display: flex;
   align-items: center;
   gap: 10px;
   transition: all 0.3s;
-  box-shadow: 0 4px 20px rgba(140, 28, 28, 0.25);
+  box-shadow: 0 6px 24px rgba(140, 28, 28, 0.3);
 }
 
 .hero-btn-primary:hover {
   background: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 28px rgba(140, 28, 28, 0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 36px rgba(140, 28, 28, 0.45);
 }
 
 .hero-btn-secondary {
-  background: #fff;
+  background: rgba(28,15,10,0.05);
   color: var(--text-primary);
   text-decoration: none;
-  padding: 16px 32px;
-  border-radius: 12px;
+  padding: 18px 36px;
+  border-radius: 14px;
   font-weight: 600;
   font-size: 16px;
   display: flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-strong);
   transition: all 0.3s;
-  box-shadow: var(--shadow-sm);
 }
 
 .hero-btn-secondary:hover {
-  background: var(--bg-main);
-  border-color: var(--border-strong);
+  background: rgba(28,15,10,0.09);
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
 }
 
 .hero-social-proof {
@@ -243,7 +249,7 @@
   gap: 12px;
   color: var(--text-secondary);
   font-size: 14px;
-  margin-bottom: 64px;
+  margin-bottom: 72px;
 }
 
 .proof-avatars {
@@ -713,85 +719,63 @@
   margin-bottom: 40px;
 }
 
-/* ── Credentials Bar ── */
+/* ── Credentials Bar (旧站红色 logo 风格) ── */
 .credentials-section {
-  background: rgba(140, 28, 28, 0.03);
-  border-top: 1px solid rgba(140, 28, 28, 0.1);
-  border-bottom: 1px solid rgba(140, 28, 28, 0.1);
-  padding: 40px;
+  background: var(--accent-color);
+  padding: 0;
   text-align: center;
 }
 
-.cred-label {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  color: var(--accent-color);
-  text-transform: uppercase;
-  margin-bottom: 28px;
-}
-
 .cred-grid {
-  display: flex;
-  justify-content: center;
-  gap: 0;
-  max-width: 900px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1200px;
   margin: 0 auto;
-  flex-wrap: wrap;
 }
 
 .cred-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14px;
-  padding: 20px 40px;
-  border-right: 1px solid var(--border-color);
-  flex: 1;
-  min-width: 200px;
+  justify-content: flex-end;
+  padding: 40px 32px 28px;
+  border-right: 1px solid rgba(255,255,255,0.15);
+  transition: background 0.25s;
+  gap: 16px;
 }
 
 .cred-card:last-child {
   border-right: none;
 }
 
-.cred-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  background: rgba(140, 28, 28, 0.08);
-  color: var(--accent-color);
+.cred-card:hover {
+  background: rgba(0,0,0,0.12);
+}
+
+.cred-logo-wrap {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
+  min-height: 90px;
 }
 
-.cred-body {
-  text-align: left;
+.cred-logo {
+  max-height: 80px;
+  max-width: 200px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
 }
 
-.cred-code {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: var(--accent-color);
-  margin-bottom: 3px;
-  text-transform: uppercase;
-}
-
-.cred-name {
-  font-size: 14px;
+.cred-desc-line {
+  font-size: 13px;
   font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 2px;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.3px;
 }
 
-.cred-desc {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.4;
-}
 
 /* ── Services Section ── */
 .services-section {

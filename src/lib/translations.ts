@@ -182,14 +182,14 @@ const t = {
     label: { zh: '持牌合规机构 · 受新加坡政府监管', en: 'Licensed & Regulated by Singapore Government Agencies' },
     items: {
       zh: [
-        { icon: 'fa-building-columns', code: 'FA20240235', name: 'ACRA 持牌注册代理', desc: '新加坡会计与企业管理局授权' },
-        { icon: 'fa-certificate',      code: 'ISCA',       name: '新加坡特许会计师',  desc: '新加坡会计师公会认证会员' },
-        { icon: 'fa-id-card',          code: '25C2990',    name: 'MOM 持牌职业介绍所', desc: '人力部授权EP申请代理' },
+        { img: '/img/acra.svg', code: 'FA20240235', name: 'ACRA 持牌注册代理', desc: '备案登记代理 FA20240235' },
+        { img: '/img/isca.svg', code: 'ISCA',       name: '新加坡特许会计师',  desc: '我们的会计师获ISCA认证' },
+        { img: '/img/mom.svg',  code: '25C2990',    name: 'MOM 持牌职业介绍所', desc: 'EA机构许可证号：25C2990' },
       ],
       en: [
-        { icon: 'fa-building-columns', code: 'FA20240235', name: 'ACRA Licensed Filing Agent', desc: 'Authorised by Accounting & Corporate Regulatory Authority' },
-        { icon: 'fa-certificate',      code: 'ISCA',       name: 'Chartered Accountant (ISCA)', desc: 'Certified by Institute of Singapore Chartered Accountants' },
-        { icon: 'fa-id-card',          code: '25C2990',    name: 'MOM Licensed Employment Agency', desc: 'Licensed for EP & immigration visa applications' },
+        { img: '/img/acra.svg', code: 'FA20240235', name: 'ACRA Licensed Filing Agent',      desc: 'Filing Agent No. FA20240235' },
+        { img: '/img/isca.svg', code: 'ISCA',       name: 'Chartered Accountant (ISCA)',     desc: 'Our accountants are ISCA certified' },
+        { img: '/img/mom.svg',  code: '25C2990',    name: 'MOM Licensed Employment Agency',  desc: 'EA Licence No. 25C2990' },
       ],
     },
   },

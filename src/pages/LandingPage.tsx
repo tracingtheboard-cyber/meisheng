@@ -85,16 +85,13 @@ export default function LandingPage() {
 
       {/* Credentials Bar */}
       <section className="credentials-section">
-        <div className="cred-label">{_(t.credentials.label)}</div>
         <div className="cred-grid">
           {t.credentials.items[lang].map(c => (
             <div key={c.code} className="cred-card">
-              <div className="cred-icon"><i className={`fa-solid ${c.icon}`}></i></div>
-              <div className="cred-body">
-                <div className="cred-code">{c.code}</div>
-                <div className="cred-name">{c.name}</div>
-                <div className="cred-desc">{c.desc}</div>
+              <div className="cred-logo-wrap">
+                <img src={c.img} alt={c.name} className="cred-logo" />
               </div>
+              <div className="cred-desc-line">{c.desc}</div>
             </div>
           ))}
         </div>
