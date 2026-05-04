@@ -251,13 +251,13 @@ app.post('/api/check-name', async (req, res) => {
     const data = await queryGoBusiness(searchTerm);
     const records = (data && data.data && data.data.businessNameService && data.data.businessNameService.records) || [];
 
-    const stripSuffix = s => s.toLowerCase()
-      .replace(/\bpte\.?\s*ltd\.?\b/gi, '')
-      .replace(/\bprivate\s+limited\b/gi, '')
-      .replace(/\bllp\b/gi, '')
-      .replace(/\s+/g, ' ').trim();
-    const searchNorm = stripSuffix(searchTerm);
-    const exactMatch = records.find(r => stripSuffix(r.entityName || r.name || '') === searchNorm);
+    // 精确匹配：entityName（大写）应以 searchTerm 开头，后接空格/逗号/结尾
+    const exactMatch = records.find(r => {
+      const en = (r.entityName || r.name || '').toUpperCase().trim();
+      return en === searchTerm ||
+        en.startsWith(searchTerm + ' ') ||
+        en.startsWith(searchTerm + ',');
+    });
 
     if (exactMatch) {
       const uen = exactMatch.uen || '';
