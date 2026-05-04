@@ -242,7 +242,10 @@ app.post('/api/check-name', async (req, res) => {
   const searchTerm = cleanName
     .replace(/\bpte\.?\s*ltd\.?\b/gi, '')
     .replace(/\bprivate\s+limited\b/gi, '')
-    .trim();
+    .replace(/\.+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toUpperCase();
 
   try {
     const data = await queryGoBusiness(searchTerm);
