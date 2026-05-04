@@ -177,6 +177,43 @@ const t = {
     },
   },
 
+  // ── Credentials bar ──
+  credentials: {
+    label: { zh: '持牌合规机构 · 受新加坡政府监管', en: 'Licensed & Regulated by Singapore Government Agencies' },
+    items: {
+      zh: [
+        { icon: 'fa-building-columns', code: 'FA20240235', name: 'ACRA 持牌注册代理', desc: '新加坡会计与企业管理局授权' },
+        { icon: 'fa-certificate',      code: 'ISCA',       name: '新加坡特许会计师',  desc: '新加坡会计师公会认证会员' },
+        { icon: 'fa-id-card',          code: '25C2990',    name: 'MOM 持牌职业介绍所', desc: '人力部授权EP申请代理' },
+      ],
+      en: [
+        { icon: 'fa-building-columns', code: 'FA20240235', name: 'ACRA Licensed Filing Agent', desc: 'Authorised by Accounting & Corporate Regulatory Authority' },
+        { icon: 'fa-certificate',      code: 'ISCA',       name: 'Chartered Accountant (ISCA)', desc: 'Certified by Institute of Singapore Chartered Accountants' },
+        { icon: 'fa-id-card',          code: '25C2990',    name: 'MOM Licensed Employment Agency', desc: 'Licensed for EP & immigration visa applications' },
+      ],
+    },
+  },
+
+  // ── Services overview ──
+  services: {
+    label: { zh: 'SERVICES · 服务范围', en: 'SERVICES · 服务范围' },
+    title: { zh: '不止注册，更是您全方位的商业伙伴', en: 'Beyond Incorporation — Your Full-Service Business Partner' },
+    items: {
+      zh: [
+        { icon: 'fa-building',        tag: '核心', title: '新加坡公司注册',   desc: '本地人 S$600 起，外籍创始人一站式套餐 S$5,999 起（含挂名董事、注册地址、法定秘书）。最快 20 分钟完成 ACRA 申报。', linkText: '立即注册' },
+        { icon: 'fa-user-tie',        tag: '合规', title: '法定公司秘书',     desc: 'S$500/年起（含AGM存档费）。持牌秘书全程管理股权变更与政府申报，价格在业内属极少见的透明定价。', linkText: '了解更多' },
+        { icon: 'fa-calculator',      tag: '财税', title: '记账·报税·薪酬',  desc: '月度记账、ECI/Form C-S 企业所得税申报、员工薪酬（含CPF）。由ISCA特许会计师督导，确保全程合规。', linkText: '查看套餐' },
+        { icon: 'fa-plane-departure', tag: '移民', title: 'EP 自雇移民规划',  desc: '专为海外创业者量身定制的自雇型 Employment Pass 申请。我们坚决不做EP挂靠——所有申请均为真实雇佣关系，合规经得起 MOM 审查。', linkText: '咨询移民' },
+      ],
+      en: [
+        { icon: 'fa-building',        tag: 'Core',        title: 'Singapore Incorporation',     desc: 'From S$600 for locals; foreigner all-in packages from S$5,999 (nominee director, address & secretary included). ACRA filed in as little as 20 minutes.', linkText: 'Start Now' },
+        { icon: 'fa-user-tie',        tag: 'Compliance',  title: 'Statutory Company Secretary', desc: 'From S$500/year (AGM filing included). Licensed secretary manages all registers, share transfers and filings — rare price transparency in Singapore.', linkText: 'Learn More' },
+        { icon: 'fa-calculator',      tag: 'Finance',     title: 'Bookkeeping, Tax & Payroll',  desc: 'Monthly bookkeeping, ECI/Form C-S tax filing, and payroll with CPF. Supervised by an ISCA Chartered Accountant for full compliance.', linkText: 'View Packages' },
+        { icon: 'fa-plane-departure', tag: 'Immigration', title: 'Self-Employment EP Planning',  desc: 'Custom Employment Pass solutions for foreign founders. We strictly reject illegal EP slot rentals — all applications reflect genuine employment, audit-ready for MOM.', linkText: 'Enquire Now' },
+      ],
+    },
+  },
+
   // ── Logos strip ──
   logos: {
     title: { zh: '深受各行业创业者信赖', en: 'Trusted across industries' },
@@ -253,7 +290,8 @@ const t = {
 
   // ── Footer ──
   footer: {
-    copy: { zh: '© 2025 Meisheng Pte. Ltd. · Singapore', en: '© 2025 Meisheng Pte. Ltd. · Singapore' },
+    copy:     { zh: '© 2025 Meisheng Pte. Ltd. · Singapore', en: '© 2025 Meisheng Pte. Ltd. · Singapore' },
+    licenses: { zh: 'ACRA 持牌代理 FA20240235 · MOM 职介所 25C2990 · ISCA 认证会计师', en: 'ACRA Filing Agent FA20240235 · MOM Licensed EA 25C2990 · ISCA Chartered Accountant' },
   },
 
   // ── Success Page ──

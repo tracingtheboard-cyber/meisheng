@@ -83,6 +83,23 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Credentials Bar */}
+      <section className="credentials-section">
+        <div className="cred-label">{_(t.credentials.label)}</div>
+        <div className="cred-grid">
+          {t.credentials.items[lang].map(c => (
+            <div key={c.code} className="cred-card">
+              <div className="cred-icon"><i className={`fa-solid ${c.icon}`}></i></div>
+              <div className="cred-body">
+                <div className="cred-code">{c.code}</div>
+                <div className="cred-name">{c.name}</div>
+                <div className="cred-desc">{c.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Features */}
       <section className="features-section" id="features">
         <div className="section-label">{_(t.features.label)}</div>
@@ -95,6 +112,25 @@ export default function LandingPage() {
               </div>
               <h3>{f.title}</h3>
               <p>{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Services Overview */}
+      <section className="services-section" id="services">
+        <div className="section-label">{_(t.services.label)}</div>
+        <h2>{_(t.services.title)}</h2>
+        <div className="services-grid">
+          {t.services.items[lang].map(s => (
+            <div key={s.title} className="service-card glass">
+              <div className="service-top">
+                <div className="service-icon"><i className={`fa-solid ${s.icon}`}></i></div>
+                <span className="service-tag">{s.tag}</span>
+              </div>
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+              <Link to="/register" className="service-link">{s.linkText} <i className="fa-solid fa-arrow-right"></i></Link>
             </div>
           ))}
         </div>
@@ -173,6 +209,7 @@ export default function LandingPage() {
           <span>Meisheng</span>
         </div>
         <p>{_(t.footer.copy)}</p>
+        <p className="footer-licenses">{_(t.footer.licenses)}</p>
       </footer>
     </div>
   );
