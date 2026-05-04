@@ -281,7 +281,7 @@ export default function RegisterPage() {
                       <div
                         key={i}
                         className={`ai-suggestion-item ${formData.companyName === name ? 'selected' : ''}`}
-                        onClick={() => { setFormData({ ...formData, companyName: name }); setNameAvailable(null); }}
+                        onClick={() => { setFormData({ ...formData, companyName: name }); setNameResult(null); }}
                       >
                         <i className="fa-regular fa-circle-dot"></i>
                         <span>{name}</span>
