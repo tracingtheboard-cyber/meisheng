@@ -23,11 +23,7 @@ export default function Dashboard() {
       {/* Sidebar */}
       <aside className="sidebar">
         <div className="logo-container" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-          <img src="/logo.png" alt="美生集团" className="logo-img" style={{ height: '36px', width: 'auto' }} />
-          <div className="logo-brand" style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.2 }}>
-            <span className="logo-en" style={{ fontWeight: 700, fontSize: '15px' }}>Meisheng</span>
-            <span className="logo-zh" style={{ fontSize: '11px', opacity: 0.7 }}>美生集团</span>
-          </div>
+          <img src="/logo.png" alt="Mayxon" className="logo-img" style={{ height: '32px', width: 'auto' }} />
         </div>
 
         <nav className="nav-menu">

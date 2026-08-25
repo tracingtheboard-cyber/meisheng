@@ -178,6 +178,44 @@ app.post('/api/suggest-names', async (req, res) => {
   }
 });
 
+// 根路径首页
+app.get('/', (req, res) => {
+  const uptime = Math.floor(process.uptime());
+  const h = Math.floor(uptime / 3600);
+  const m = Math.floor((uptime % 3600) / 60);
+  const s = uptime % 60;
+  res.send(`<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8">
+<title>美生支付后端</title>
+<style>
+  body{font-family:-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;margin:0;padding:40px;min-height:100vh}
+  h1{font-size:1.8rem;color:#38bdf8;margin-bottom:4px}
+  .badge{display:inline-block;background:#22c55e;color:#fff;padding:3px 10px;border-radius:20px;font-size:.8rem;margin-left:10px;vertical-align:middle}
+  .info{color:#94a3b8;font-size:.9rem;margin-bottom:32px}
+  table{width:100%;border-collapse:collapse;max-width:700px}
+  th{text-align:left;padding:10px 14px;background:#1e293b;color:#94a3b8;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em}
+  td{padding:10px 14px;border-top:1px solid #1e293b;font-size:.9rem}
+  .method{background:#1d4ed8;color:#fff;padding:2px 8px;border-radius:4px;font-size:.75rem;font-weight:700;font-family:monospace}
+  .method.post{background:#7c3aed}
+  .path{color:#38bdf8;font-family:monospace}
+  .desc{color:#94a3b8}
+</style></head><body>
+<h1>🚀 美生支付后端 <span class="badge">● 运行中</span></h1>
+<p class="info">运行时间：${h}h ${m}m ${s}s &nbsp;|&nbsp; Node ${process.version} &nbsp;|&nbsp; 环境：${process.env.NODE_ENV || 'development'}</p>
+<table>
+<tr><th>方法</th><th>路径</th><th>说明</th></tr>
+<tr><td><span class="method">GET</span></td><td class="path">/api/health</td><td class="desc">健康检查</td></tr>
+<tr><td><span class="method post">POST</span></td><td class="path">/api/check-name</td><td class="desc">ACRA 公司核名（GoBusiness 数据源）</td></tr>
+<tr><td><span class="method post">POST</span></td><td class="path">/api/suggest-names</td><td class="desc">AI 公司名称推荐</td></tr>
+<tr><td><span class="method post">POST</span></td><td class="path">/api/create-checkout-session</td><td class="desc">创建 Stripe 支付会话</td></tr>
+<tr><td><span class="method post">POST</span></td><td class="path">/api/upload-document</td><td class="desc">上传 KYC 文件到 Supabase</td></tr>
+<tr><td><span class="method post">POST</span></td><td class="path">/api/save-order</td><td class="desc">保存注册订单</td></tr>
+<tr><td><span class="method post">POST</span></td><td class="path">/api/admin/login</td><td class="desc">管理员登录</td></tr>
+<tr><td><span class="method">GET</span></td><td class="path">/api/admin/orders</td><td class="desc">获取所有订单（需登录）</td></tr>
+<tr><td><span class="method">GET</span></td><td class="path">/api/admin/list-docs</td><td class="desc">列出所有 KYC 文件（需登录）</td></tr>
+</table>
+</body></html>`);
+});
+
 // 健康检查
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: '美生支付服务运行中 ✅' });

@@ -16,11 +16,7 @@ export default function LandingPage() {
       <nav className="landing-nav">
         <div className="nav-inner">
           <div className="landing-logo">
-            <img src="/logo.png" alt="美生集团" className="logo-img" />
-            <div className="logo-brand">
-              <span className="logo-en">Meisheng</span>
-              <span className="logo-zh">美生集团</span>
-            </div>
+            <img src="/logo.png" alt="Mayxon" className="logo-img" />
           </div>
           <div className="nav-links">
             <a href="#features">{_(t.nav.features)}</a>
@@ -202,8 +198,7 @@ export default function LandingPage() {
 
       <footer className="landing-footer">
         <div className="landing-logo">
-          <div className="logo-icon"><i className="fa-solid fa-gem"></i></div>
-          <span>Meisheng</span>
+          <img src="/logo.png" alt="Mayxon" className="logo-img" style={{ height: '28px', filter: 'brightness(0) invert(1)', opacity: 0.8 }} />
         </div>
         <p>{_(t.footer.copy)}</p>
         <p className="footer-licenses">{_(t.footer.licenses)}</p>

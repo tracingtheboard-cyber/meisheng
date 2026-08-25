@@ -174,11 +174,7 @@ export default function RegisterPage() {
       {/* 左侧面板 */}
       <aside className="register-aside">
           <div className="aside-logo" onClick={() => navigate('/')}>
-            <img src="/logo.png" alt="美生集团" className="logo-img" />
-            <div className="logo-brand">
-              <span className="logo-en">Meisheng</span>
-              <span className="logo-zh">美生集团</span>
-            </div>
+            <img src="/logo.png" alt="Mayxon" className="logo-img" />
           </div>
           <button className="lang-toggle-btn" style={{margin:'0 0 16px 0',alignSelf:'flex-start'}} onClick={toggleLang}>
             {_(t.nav.langToggle)}
